@@ -21,40 +21,48 @@ def endgame():
     game_is_on = False
 
 
+def start_game():
+    game()
+
+
 screen.listen()
 screen.onkey(snake.up, "Up")
 screen.onkey(snake.down, "Down")
 screen.onkey(snake.right, "Right")
 screen.onkey(snake.left, "Left")
 screen.onkey(endgame, 'e')
+screen.onkey(start_game, "s")
 
 screen.update()
 
 game_is_on = True
 
-while game_is_on:
-    screen.update()
-    time.sleep(0.2)
-    snake.move()
 
-    # detects collision with food
-    if snake.head.distance(food) < 15:
-        food.refresh()
-        snake.extend()
-        score.add_score()
+def game():
+    global game_is_on
+    while game_is_on:
+        screen.update()
+        time.sleep(0.2)
+        snake.move()
 
-    score.show_score()
+        # detects collision with food
+        if snake.head.distance(food) < 15:
+            food.refresh()
+            snake.extend()
+            score.add_score()
 
-    # detects collision with wall
-    if snake.head.xcor() > 280 or snake.head.xcor() < -280 or snake.head.ycor() > 280 or snake.head.ycor() < -280:
-        game_is_on = False
-        score.game_end()
+        score.show_score()
 
-    # Detects the tail
-    for snakes in snake.all_snake[1:]:
-        if snake.head.distance(snakes) < 10:
+        # detects collision with wall
+        if snake.head.xcor() > 280 or snake.head.xcor() < -280 or snake.head.ycor() > 280 or snake.head.ycor() < -280:
             game_is_on = False
             score.game_end()
+
+        # Detects the tail
+        for snakes in snake.all_snake[1:]:
+            if snake.head.distance(snakes) < 10:
+                game_is_on = False
+                score.game_end()
 
 
 screen.exitonclick()
