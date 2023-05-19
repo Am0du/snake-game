@@ -44,6 +44,14 @@ class Snake(Scoreboard):
 
         self.all_snake[0].forward(MOVE_DISTANCE)
 
+    def reset(self):
+        for snake in self.all_snake:
+            snake.goto(1000, 1000)
+
+        self.all_snake.clear()
+        self.create_snake()
+        self.head = self.all_snake[0]
+
     def up(self):
         if self.head.heading() != DOWN:
             self.all_snake[0].setheading(UP)
